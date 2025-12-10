@@ -15,10 +15,10 @@ This can be tested by setting EXTENSIONS_GALLERY set to:
     '{"serviceUrl": "https://my-extensions/api"}'
 
 
-Index: code-server/lib/vscode/src/vs/platform/product/common/product.ts
+Index: coder-code-server-fork/lib/vscode/src/vs/platform/product/common/product.ts
 ===================================================================
---- code-server.orig/lib/vscode/src/vs/platform/product/common/product.ts
-+++ code-server/lib/vscode/src/vs/platform/product/common/product.ts
+--- coder-code-server-fork.orig/lib/vscode/src/vs/platform/product/common/product.ts
++++ coder-code-server-fork/lib/vscode/src/vs/platform/product/common/product.ts
 @@ -49,6 +49,17 @@ else if (globalThis._VSCODE_PRODUCT_JSON
  			version: pkg.version
  		});
@@ -37,10 +37,10 @@ Index: code-server/lib/vscode/src/vs/platform/product/common/product.ts
  }
  
  // Web environment or unknown
-Index: code-server/lib/vscode/src/vs/server/node/webClientServer.ts
+Index: coder-code-server-fork/lib/vscode/src/vs/server/node/webClientServer.ts
 ===================================================================
---- code-server.orig/lib/vscode/src/vs/server/node/webClientServer.ts
-+++ code-server/lib/vscode/src/vs/server/node/webClientServer.ts
+--- coder-code-server-fork.orig/lib/vscode/src/vs/server/node/webClientServer.ts
++++ coder-code-server-fork/lib/vscode/src/vs/server/node/webClientServer.ts
 @@ -326,7 +326,6 @@ export class WebClientServer {
  
  		const staticRoute = posix.join(basePath, this._productPath, STATIC_PATH);
@@ -65,10 +65,10 @@ Index: code-server/lib/vscode/src/vs/server/node/webClientServer.ts
  		};
  
  		const proposedApi = this._environmentService.args['enable-proposed-api'];
-Index: code-server/lib/vscode/src/vs/platform/extensionResourceLoader/common/extensionResourceLoader.ts
+Index: coder-code-server-fork/lib/vscode/src/vs/platform/extensionResourceLoader/common/extensionResourceLoader.ts
 ===================================================================
---- code-server.orig/lib/vscode/src/vs/platform/extensionResourceLoader/common/extensionResourceLoader.ts
-+++ code-server/lib/vscode/src/vs/platform/extensionResourceLoader/common/extensionResourceLoader.ts
+--- coder-code-server-fork.orig/lib/vscode/src/vs/platform/extensionResourceLoader/common/extensionResourceLoader.ts
++++ coder-code-server-fork/lib/vscode/src/vs/platform/extensionResourceLoader/common/extensionResourceLoader.ts
 @@ -15,7 +15,6 @@ import { getServiceMachineId } from '../
  import { IStorageService } from '../../storage/common/storage.js';
  import { TelemetryLevel } from '../../telemetry/common/telemetry.js';
@@ -90,3 +90,18 @@ Index: code-server/lib/vscode/src/vs/platform/extensionResourceLoader/common/ext
  	}
  
  }
+Index: coder-code-server-fork/lib/vscode/src/vs/platform/externalServices/common/marketplace.ts
+===================================================================
+--- coder-code-server-fork.orig/lib/vscode/src/vs/platform/externalServices/common/marketplace.ts
++++ coder-code-server-fork/lib/vscode/src/vs/platform/externalServices/common/marketplace.ts
+@@ -26,6 +26,10 @@ export async function resolveMarketplace
+ 		'User-Agent': `VSCode ${version} (${productService.nameShort})`
+ 	};
+ 
++	if (productService.extensionsGallery?.token) {
++		headers['Authorization'] = `Bearer ${productService.extensionsGallery.token}`;
++	}
++
+ 	if (supportsTelemetry(productService, environmentService) && getTelemetryLevel(configurationService) === TelemetryLevel.USAGE) {
+ 		const serviceMachineId = await getServiceMachineId(environmentService, fileService, storageService);
+ 		headers['X-Market-User-Id'] = serviceMachineId;

@@ -8,10 +8,10 @@ package.json and delete the last notification storage item.
 3. Click "Clear site data"
 4. See update notification
 
-Index: code-server/lib/vscode/src/vs/workbench/browser/client.ts
+Index: coder-code-server-fork/lib/vscode/src/vs/workbench/browser/client.ts
 ===================================================================
---- code-server.orig/lib/vscode/src/vs/workbench/browser/client.ts
-+++ code-server/lib/vscode/src/vs/workbench/browser/client.ts
+--- coder-code-server-fork.orig/lib/vscode/src/vs/workbench/browser/client.ts
++++ coder-code-server-fork/lib/vscode/src/vs/workbench/browser/client.ts
 @@ -1,10 +1,16 @@
  import { Disposable } from "../../base/common/lifecycle.js";
  import { localize } from '../../nls.js';
@@ -89,10 +89,10 @@ Index: code-server/lib/vscode/src/vs/workbench/browser/client.ts
 +		updateLoop();
  	}
  }
-Index: code-server/lib/vscode/src/vs/base/common/product.ts
+Index: coder-code-server-fork/lib/vscode/src/vs/base/common/product.ts
 ===================================================================
---- code-server.orig/lib/vscode/src/vs/base/common/product.ts
-+++ code-server/lib/vscode/src/vs/base/common/product.ts
+--- coder-code-server-fork.orig/lib/vscode/src/vs/base/common/product.ts
++++ coder-code-server-fork/lib/vscode/src/vs/base/common/product.ts
 @@ -66,6 +66,7 @@ export type ExtensionVirtualWorkspaceSup
  export interface IProductConfiguration {
  	readonly codeServerVersion?: string
@@ -101,10 +101,18 @@ Index: code-server/lib/vscode/src/vs/base/common/product.ts
  
  	readonly version: string;
  	readonly date?: string;
-Index: code-server/lib/vscode/src/vs/server/node/webClientServer.ts
+@@ -112,6 +113,7 @@ export interface IProductConfiguration {
+ 		readonly resourceUrlTemplate: string;
+ 		readonly nlsBaseUrl: string;
+ 		readonly accessSKUs?: string[];
++		readonly token?: string;
+ 	};
+ 
+ 	readonly mcpGallery?: {
+Index: coder-code-server-fork/lib/vscode/src/vs/server/node/webClientServer.ts
 ===================================================================
---- code-server.orig/lib/vscode/src/vs/server/node/webClientServer.ts
-+++ code-server/lib/vscode/src/vs/server/node/webClientServer.ts
+--- coder-code-server-fork.orig/lib/vscode/src/vs/server/node/webClientServer.ts
++++ coder-code-server-fork/lib/vscode/src/vs/server/node/webClientServer.ts
 @@ -340,6 +340,7 @@ export class WebClientServer {
  		const productConfiguration: Partial<Mutable<IProductConfiguration>> = {
  			codeServerVersion: this._productService.codeServerVersion,
@@ -113,10 +121,10 @@ Index: code-server/lib/vscode/src/vs/server/node/webClientServer.ts
  			embedderIdentifier: 'server-distro',
  			extensionsGallery: this._productService.extensionsGallery,
  		};
-Index: code-server/lib/vscode/src/vs/server/node/serverEnvironmentService.ts
+Index: coder-code-server-fork/lib/vscode/src/vs/server/node/serverEnvironmentService.ts
 ===================================================================
---- code-server.orig/lib/vscode/src/vs/server/node/serverEnvironmentService.ts
-+++ code-server/lib/vscode/src/vs/server/node/serverEnvironmentService.ts
+--- coder-code-server-fork.orig/lib/vscode/src/vs/server/node/serverEnvironmentService.ts
++++ coder-code-server-fork/lib/vscode/src/vs/server/node/serverEnvironmentService.ts
 @@ -15,6 +15,8 @@ import { joinPath } from '../../base/com
  import { join } from '../../base/common/path.js';
  
